@@ -2,6 +2,7 @@ import { StyleSheet, Image } from "react-native";
 import Colors from "@/src/constants/Colors";
 import { Text, View } from "@/src/components/Themed";
 import { Product } from "../types";
+import { Link } from "expo-router";
 
 type ProductListItemProps = {
   product: Product;

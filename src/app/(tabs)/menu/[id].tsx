@@ -6,7 +6,7 @@ const ProductDetailScreen = () => {
 
   return (
     <View>
-      <Text>ProductDetailsScreen for id: {id}</Text>
+      <Text style={{ fontSize: 20 }}>ProductDetailsScreen for id: {id}</Text>
     </View>
   );
 };

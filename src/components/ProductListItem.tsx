@@ -2,7 +2,7 @@ import { StyleSheet, Image, Pressable } from "react-native";
 import Colors from "@/src/constants/Colors";
 import { Text, View } from "@/src/components/Themed";
 import { Product } from "../types";
-import { Link } from "expo-router";
+import { Link, useSegments } from "expo-router";
 
 type ProductListItemProps = {
   product: Product;
@@ -13,7 +13,7 @@ export const defaultPizzaImage =
 
 const ProductListItem = ({ product }: ProductListItemProps) => {
   return (
-    <Link href={`/menu/${product.id}`} asChild>
+    <Link href={`./menu/${product.id}`} asChild>
       <Pressable style={styles.container}>
         <Image
           source={{ uri: product.image || defaultPizzaImage }}

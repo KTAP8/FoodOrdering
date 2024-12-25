@@ -16,6 +16,7 @@ const OrderItemListItem = ({ item }: OrderItemListItemProps) => {
       <Image
         source={{ uri: item.products.image || defaultPizzaImage }}
         style={styles.image}
+        resizeMode="contain"
       ></Image>
       <View style={{ flex: 1 }}>
         <Text style={styles.title}>{item.products.name}</Text>

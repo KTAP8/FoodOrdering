@@ -4,12 +4,12 @@ import Button from "@/src/components/Button";
 import Colors from "@/src/constants/Colors";
 import { useState } from "react";
 
-const signIn = () => {
+const signUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{ title: "Sign in" }}></Stack.Screen>
+      <Stack.Screen options={{ title: "Sign up" }}></Stack.Screen>
       <Text style={styles.label}>Email</Text>
       <TextInput
         value={email}
@@ -24,9 +24,9 @@ const signIn = () => {
         style={styles.input}
         secureTextEntry
       ></TextInput>
-      <Button text="Sign in"></Button>
-      <Link style={styles.textButton} href="/sign-up">
-        Create an account
+      <Button text="Create account"></Button>
+      <Link style={styles.textButton} href="/sign-in">
+        Sign in
       </Link>
     </View>
   );
@@ -58,4 +58,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default signIn;
+export default signUp;

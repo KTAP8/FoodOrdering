@@ -1,11 +1,15 @@
 import { View, Text, StyleSheet, TextInput, Image, Alert } from "react-native";
 import Button from "@/src/components/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { defaultPizzaImage } from "@/src/components/ProductListItem";
 import Colors from "@/src/constants/Colors";
 import * as ImagePicker from "expo-image-picker";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import { useInsertProduct } from "@/src/api/products";
+import {
+  useInsertProduct,
+  useProduct,
+  useUpdateProduct,
+} from "@/src/api/products";
 
 const createProductScreen = () => {
   const [name, setName] = useState("");
@@ -14,10 +18,23 @@ const createProductScreen = () => {
   const [image, setImage] = useState<string | null>(null);
   const router = useRouter();
 
-  const { id } = useLocalSearchParams();
+  const { id: idString } = useLocalSearchParams();
+  const id = parseFloat(
+    typeof idString === "string" ? idString : idString?.[0]
+  );
   const isUpdating = !!id;
 
   const { mutate: insertProuduct } = useInsertProduct();
+  const { mutate: updateProuduct } = useUpdateProduct();
+  const { data: updatingProduct } = useProduct(id);
+
+  useEffect(() => {
+    if (updatingProduct) {
+      setName(updatingProduct.name);
+      setPrice(updatingProduct.price.toString());
+      setImage(updatingProduct.image);
+    }
+  }, [updatingProduct]);
 
   const resetFields = () => {
     setName("");
@@ -57,20 +74,26 @@ const createProductScreen = () => {
     );
   };
 
-  const onUpdateCreate = () => {
+  const onUpdate = () => {
     if (!validateInput()) {
       return;
     }
-    console.warn("Updating a product: " + name);
 
     //store in database
-
-    resetFields();
+    updateProuduct(
+      { id, name, price: parseFloat(price), image },
+      {
+        onSuccess: () => {
+          resetFields();
+          router.back();
+        },
+      }
+    );
   };
 
   const onSubmit = () => {
     if (isUpdating) {
-      onUpdateCreate();
+      onUpdate();
     } else {
       onCreate();
     }

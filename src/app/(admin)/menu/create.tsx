@@ -4,16 +4,20 @@ import { useState } from "react";
 import { defaultPizzaImage } from "@/src/components/ProductListItem";
 import Colors from "@/src/constants/Colors";
 import * as ImagePicker from "expo-image-picker";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { useInsertProduct } from "@/src/api/products";
 
 const createProductScreen = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [errors, setErrors] = useState("");
   const [image, setImage] = useState<string | null>(null);
+  const router = useRouter();
 
   const { id } = useLocalSearchParams();
   const isUpdating = !!id;
+
+  const { mutate: insertProuduct } = useInsertProduct();
 
   const resetFields = () => {
     setName("");
@@ -41,11 +45,16 @@ const createProductScreen = () => {
     if (!validateInput()) {
       return;
     }
-    console.warn("Creating a product: " + name);
-
     //store in database
-
-    resetFields();
+    insertProuduct(
+      { name, price: parseFloat(price), image },
+      {
+        onSuccess: () => {
+          resetFields();
+          router.back();
+        },
+      }
+    );
   };
 
   const onUpdateCreate = () => {

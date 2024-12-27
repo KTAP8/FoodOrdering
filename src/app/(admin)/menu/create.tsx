@@ -6,6 +6,7 @@ import Colors from "@/src/constants/Colors";
 import * as ImagePicker from "expo-image-picker";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import {
+  useDeleteProduct,
   useInsertProduct,
   useProduct,
   useUpdateProduct,
@@ -27,6 +28,7 @@ const createProductScreen = () => {
   const { mutate: insertProuduct } = useInsertProduct();
   const { mutate: updateProuduct } = useUpdateProduct();
   const { data: updatingProduct } = useProduct(id);
+  const { mutate: deleteProuduct } = useDeleteProduct();
 
   useEffect(() => {
     if (updatingProduct) {
@@ -100,6 +102,11 @@ const createProductScreen = () => {
   };
 
   const onDelete = () => {
+    deleteProuduct(id, {
+      onSuccess: () => {
+        router.replace("/(admin)");
+      },
+    });
     console.warn("deleting");
   };
 

@@ -1,7 +1,20 @@
-import { Text, FlatList } from "react-native";
+import { Text, FlatList, ActivityIndicator } from "react-native";
 import orders from "@/assets/data/orders";
 import OrderListItem from "@/src/components/OrderListItem";
+import { useAdminOrderList } from "@/src/api/orders";
 export default function OrdersScreen() {
+  const {
+    data: orders,
+    isLoading,
+    error,
+  } = useAdminOrderList({ archived: true });
+  if (isLoading) {
+    return <ActivityIndicator></ActivityIndicator>;
+  }
+
+  if (error) {
+    return <Text>Failed to fetech</Text>;
+  }
   return (
     <FlatList
       contentContainerStyle={{ gap: 10, padding: 10 }}

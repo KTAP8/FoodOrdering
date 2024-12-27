@@ -1,11 +1,11 @@
 import { StyleSheet, Image, Pressable } from "react-native";
 import Colors from "@/src/constants/Colors";
 import { Text, View } from "@/src/components/Themed";
-import { Product } from "../types";
+import { Tables } from "../types";
 import { Link, useSegments } from "expo-router";
 
 type ProductListItemProps = {
-  product: Product;
+  product: Tables<"products">;
 };
 
 export const defaultPizzaImage =
